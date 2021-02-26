@@ -5,27 +5,34 @@
 <p>Reactivity in an object editing interface.</p>
 
 @foreach (var c in cells) {
-    <input value="@c.Value" @onchange="(e => GetSum(c, e.Value.ToString()))">
+    <input value="@c.Index" class="label-cell" tabindex="-1"
+           style="border-bottom: @BottomBorder(c.Index)"
+           readonly="readonly">
+    <input value="@c.Value" class="input-cell" maxlength="12"
+           style="border-bottom: @BottomBorder(c.Index)"
+           @onchange="(_ => GetSum(c, _.Value.ToString()))">
     <br />
 }
-<h4>Result: @result</h4>
+<br />
+<h4>Sum: @result</h4>
 
 @code {
     class Cell
     {
-        public string Index { get; set; }
+        public int Index { get; set; }
         public decimal Value { get; set; }
     }
+
+    int SAMPLECELLS = 16;
 
     List<Cell> cells = new();
 
     protected override void OnInitialized()
     {
         var random = new Random();
-
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < SAMPLECELLS; i++) {
             cells.Add(new Cell {
-                Index = $"A{i}",
+                Index = i,
                 Value = (decimal)Math.Round(1000 * random.NextDouble(), 2)
             });
         }
@@ -37,7 +44,17 @@
 
     void GetSum(Cell cell, string value)
     {
-        cell.Value = int.Parse(value);
+        // filter bad entries
+        decimal.TryParse(value, out decimal x);
+        // update cell value
+        cell.Value = x;
+        // update sum 
         result = cells.Sum(x => x.Value);
+    }
+
+    string BottomBorder(int cellIndex)
+    {
+        // cell close line or none
+        return cellIndex == SAMPLECELLS - 1 ? "1px solid lightgray" : "none";
     }
 }

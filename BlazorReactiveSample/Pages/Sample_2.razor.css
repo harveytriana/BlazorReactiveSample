@@ -2,11 +2,22 @@
     outline: none;
 }
 
-input {
+.input-cell {
     border-top: 1px solid lightgray;
     border-left: 1px solid lightgray;
     border-right: 1px solid lightgray;
-    border-bottom: none;
     text-align: right;
     width: 120px;
+    padding-right: 6px;
+    margin-left:-4px;
 }
+
+.label-cell {
+    border-top: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: none;
+    width: 60px;
+    background-color:whitesmoke;
+    padding-left: 6px;
+}
+
