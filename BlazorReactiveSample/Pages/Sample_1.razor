@@ -1,0 +1,99 @@
+﻿@page "/sample-1"
+
+<h3>Standard Parameter</h3>
+
+<EditForm Model="_p" OnValidSubmit="Publish">
+    <label for="name">Name</label>
+    <InputText @bind-Value="_p.Name" class="form-control" />
+    <br />
+    <label for="Mnemonic">Mnemonic</label>
+    <InputText @bind-Value="_p.Mnemonic" class="form-control" />
+    <br />
+    <label for="source">Parameter Source</label>
+    <div class="card">
+        <div class="card-body">
+            <InputRadioGroup Name="source" @bind-Value="_p.Source">
+                @foreach (var i in Enum.GetValues<Source>()) {
+                    <InputRadio Value="i" class="out-border" />
+                    @i<br />
+                }
+            </InputRadioGroup>
+        </div>
+    </div>
+    <br />
+    <label for="SystemUnits">System Units</label>
+    <div class="card">
+        <div class="card-body">
+            <InputRadioGroup Name="SystemUnits" @bind-Value="_p.SystemUnits">
+                Set System Units:<br />
+                @foreach (var i in Enum.GetValues<SystemUnits>()) {
+                    <InputRadio Value="i" class="out-border" />
+                    @i<br />
+                }
+            </InputRadioGroup>
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Publish</button>
+</EditForm>
+
+<br />
+<div class="card bg-light p-3">
+<pre>
+<strong>Entity</strong>
+Id       : @_p.Id
+Name     : @_p.Name
+Mnemonic : @_p.Mnemonic
+Sourve   : @_p.Source
+Units    : @_p.SystemUnits 
+</pre>
+</div>
+
+@code {
+    public enum Source
+    {
+        Sensor,
+        Chromatograph,
+        WITSChannel,
+        Formula,
+        Spectrometer,
+        StaticFile,
+        ServiceBus
+    }
+
+    public enum SystemUnits
+    {
+        US,
+        Metric,
+        SI,
+        Custom
+    }
+
+    public class StdParameter
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Mnemonic { get; set; }
+        public Source Source { get; set; }
+        public SystemUnits SystemUnits { get; set; }
+    }
+
+    StdParameter _p;
+
+    protected override void OnInitialized()
+    {
+        _p = new StdParameter {
+            Id = Guid.NewGuid(),
+            Mnemonic = "RXO",
+            Source = Source.Sensor,
+            SystemUnits = SystemUnits.SI,
+            Name = "Shalow Resistivity"
+        };
+    }
+
+    void Publish()
+    {
+
+    }
+
+}

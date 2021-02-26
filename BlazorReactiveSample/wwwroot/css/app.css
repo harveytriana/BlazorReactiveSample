@@ -49,3 +49,20 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+/* CUSTOM */
+
+:focus {
+    outline: none;
+}
+
+.out-border {
+    outline: none !important;
+    border: none !important;
+    margin-right: 8px !important;
+}
+
+    .out-border:focus {
+        border: none !important;
+        outline: none !important;
+    }
