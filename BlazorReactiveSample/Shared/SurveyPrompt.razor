@@ -1,0 +1,31 @@
+﻿@inject NavigationManager _navigation
+
+<div class="alert alert-secondary mt-4" role="alert">
+    <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+    <strong>@Title</strong>
+
+    <span class="text-nowrap">
+        Please take our
+        <a target="_blank"
+           class="font-weight-bold"
+           href=""
+           @onclick:preventDefault="true"
+           @onclick="Navigate">brief survey</a>
+    </span>
+    and tell us what you think.
+</div>
+
+@code {
+    // Demonstrates how a parent component can supply parameters
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Href { get; set; } = "https://go.microsoft.com/fwlink/?linkid=2137916";
+
+    void Navigate()
+    {
+        _navigation.NavigateTo(Href);
+    }
+
+}
