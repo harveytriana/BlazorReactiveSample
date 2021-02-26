@@ -1,8 +1,7 @@
 ﻿@page "/sample-2"
 
-<h3>Cells</h3>
+<h3>Reactivity with multiple associated elements</h3>
 <hr />
-<p>Reactivity in an object editing interface.</p>
 
 @foreach (var c in cells) {
     <input value="@c.Index" class="label-cell" tabindex="-1"
@@ -23,7 +22,7 @@
         public decimal Value { get; set; }
     }
 
-    int SAMPLECELLS = 16;
+    int SAMPLECELLS = 20;
 
     List<Cell> cells = new();
 
