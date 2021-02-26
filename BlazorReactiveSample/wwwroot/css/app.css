@@ -51,7 +51,6 @@ a, .btn-link {
     }
 
 /* CUSTOM */
-
 :focus {
     outline: none;
 }
@@ -66,3 +65,8 @@ a, .btn-link {
         border: none !important;
         outline: none !important;
     }
+
+label{
+    margin-top:6px !important;
+}
+

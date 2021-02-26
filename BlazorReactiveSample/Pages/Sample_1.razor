@@ -1,18 +1,18 @@
 ﻿@page "/sample-1"
 
 <h3>Standard Parameter</h3>
+<hr />
+<p>Reactivity in an object editing interface.</p>
 
-<EditForm Model="_p" OnValidSubmit="Publish">
-    <label for="name">Name</label>
-    <InputText @bind-Value="_p.Name" class="form-control" />
-    <br />
+<EditForm Model="_p">
+    <label for="name">Description</label>
+    <InputText @bind-Value="_p.Description" class="form-control" />
     <label for="Mnemonic">Mnemonic</label>
     <InputText @bind-Value="_p.Mnemonic" class="form-control" />
-    <br />
     <label for="source">Parameter Source</label>
     <div class="card">
         <div class="card-body">
-            <InputRadioGroup Name="source" @bind-Value="_p.Source">
+            <InputRadioGroup Description="source" @bind-Value="_p.Source">
                 @foreach (var i in Enum.GetValues<Source>()) {
                     <InputRadio Value="i" class="out-border" />
                     @i<br />
@@ -20,80 +20,63 @@
             </InputRadioGroup>
         </div>
     </div>
-    <br />
-    <label for="SystemUnits">System Units</label>
+    <label for="UnitsSystem">System Units</label>
     <div class="card">
         <div class="card-body">
-            <InputRadioGroup Name="SystemUnits" @bind-Value="_p.SystemUnits">
-                Set System Units:<br />
-                @foreach (var i in Enum.GetValues<SystemUnits>()) {
+            <InputRadioGroup Description="UnitsSystem" @bind-Value="_p.UnitsSystem">
+                @foreach (var i in Enum.GetValues<UnitsSystem>()) {
                     <InputRadio Value="i" class="out-border" />
                     @i<br />
                 }
             </InputRadioGroup>
         </div>
     </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Publish</button>
 </EditForm>
-
-<br />
-<div class="card bg-light p-3">
-<pre>
-<strong>Entity</strong>
-Id       : @_p.Id
-Name     : @_p.Name
-Mnemonic : @_p.Mnemonic
-Sourve   : @_p.Source
-Units    : @_p.SystemUnits 
-</pre>
+<hr />
+<h5>Object Attributes</h5>
+<div class="card bg-light">
+    <pre><code>
+    Id          : @_p.Id
+    Description : @_p.Description
+    Mnemonic    : @_p.Mnemonic
+    Sourve      : @_p.Source
+    Units       : @_p.UnitsSystem
+</code></pre>
 </div>
 
 @code {
+    // Brought here for demonstration
     public enum Source
     {
-        Sensor,
-        Chromatograph,
-        WITSChannel,
-        Formula,
-        Spectrometer,
-        StaticFile,
-        ServiceBus
+        Sensor, Chromatograph, Spectrometer, ServiceBus, WITSML
     }
 
-    public enum SystemUnits
+    public enum UnitsSystem
     {
-        US,
-        Metric,
-        SI,
-        Custom
+        FPS, Metric, SI, Cooktail
     }
 
     public class StdParameter
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
         public string Mnemonic { get; set; }
         public Source Source { get; set; }
-        public SystemUnits SystemUnits { get; set; }
+        public UnitsSystem UnitsSystem { get; set; }
     }
 
+    // Active instance
     StdParameter _p;
 
     protected override void OnInitialized()
     {
+        // data sample
         _p = new StdParameter {
             Id = Guid.NewGuid(),
             Mnemonic = "RXO",
-            Source = Source.Sensor,
-            SystemUnits = SystemUnits.SI,
-            Name = "Shalow Resistivity"
+            Source = Source.WITSML,
+            UnitsSystem = UnitsSystem.SI,
+            Description = "Shalow Resistivity"
         };
     }
-
-    void Publish()
-    {
-
-    }
-
 }
