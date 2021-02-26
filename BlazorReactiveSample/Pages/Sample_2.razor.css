@@ -1,0 +1,12 @@
+﻿:focus {
+    outline: none;
+}
+
+input {
+    border-top: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-bottom: none;
+    text-align: right;
+    width: 120px;
+}

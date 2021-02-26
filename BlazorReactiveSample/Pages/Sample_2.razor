@@ -1,5 +1,43 @@
-﻿<h3>Sample_1</h3>
+﻿@page "/sample-2"
+
+<h3>Cells</h3>
+<hr />
+<p>Reactivity in an object editing interface.</p>
+
+@foreach (var c in cells) {
+    <input value="@c.Value" @onchange="(e => GetSum(c, e.Value.ToString()))">
+    <br />
+}
+<h4>Result: @result</h4>
 
 @code {
+    class Cell
+    {
+        public string Index { get; set; }
+        public decimal Value { get; set; }
+    }
 
+    List<Cell> cells = new();
+
+    protected override void OnInitialized()
+    {
+        var random = new Random();
+
+        for (int i = 0; i < 16; i++) {
+            cells.Add(new Cell {
+                Index = $"A{i}",
+                Value = (decimal)Math.Round(1000 * random.NextDouble(), 2)
+            });
+        }
+        result = cells.Sum(x => x.Value);
+    }
+
+    // reactive result
+    decimal result;
+
+    void GetSum(Cell cell, string value)
+    {
+        cell.Value = int.Parse(value);
+        result = cells.Sum(x => x.Value);
+    }
 }
