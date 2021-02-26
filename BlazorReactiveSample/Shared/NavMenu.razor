@@ -1,4 +1,7 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@implements IDisposable
+@inject AuthState _auth
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Blazor Reactive Sample</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -20,6 +23,16 @@
                 </NavLink>
             </li>
         }
+
+        @if (isAdmin) {
+            @foreach (var i in adminFunctions) {
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="@i" @onclick:preventDefault="true">
+                        <span class="oi oi-cloud" aria-hidden="true"></span> @i
+                    </NavLink>
+                </li>
+            }
+        }
     </ul>
 </div>
 
@@ -32,4 +45,29 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    #region Sample 3
+    string[] adminFunctions = new string[] {
+        "Manage Users", "Site Metric", "Database Backup"
+    };
+    bool isAdmin;
+
+    // subscribe global event
+    protected override void OnInitialized()
+    {
+        _auth.OnChange += AuthHasChanged;
+    }
+    // unsubscrobe global event
+    public void Dispose()
+    {
+        _auth.OnChange -= AuthHasChanged;
+    }
+    // handle yhe event
+    void AuthHasChanged()
+    {
+        isAdmin = _auth.Status == LoginStatus.LoggedIn;
+        StateHasChanged();
+    }
+    #endregion
+
 }
