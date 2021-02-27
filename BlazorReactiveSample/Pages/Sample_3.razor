@@ -7,13 +7,11 @@
 
 <div class="card bg-light p-3 vertical-margin">
     @foreach (var s in Enum.GetValues<LoginStatus>()) {
-        <div class="form-check" style="margin-bottom:5px;">
+        <div class="form-check" style="margin-bottom:4px;">
             <input class="form-check-input" type="radio" name="@s"
                    checked="@(s == _authState.Status)"
                    @onclick="() => ToggleLoginStatus(s)">
-            <label class="form-check-label" for="@s">
-                <span style="margin-left:6px;">@s</span>
-            </label>
+                <span style="margin-left:6px;margin-top:-4px">@s</span>
         </div>
     }
 </div>
