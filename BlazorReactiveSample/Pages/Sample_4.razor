@@ -1,5 +1,28 @@
-﻿<h3>Sample_1</h3>
+﻿@page "/sample-4"
+
+<h3>Cascade Reactivity</h3>
+<hr />
+<p>Shows how a reactivity is programmed between nested components.</p>
+
+<CascadingValue Name="WidgetColor" Value=@color>
+    <Monitor Name="Sample Monitor" />
+</CascadingValue>
+
+<br />
+<button class="btn btn-primary" @onclick="ChangeColor">Change Color</button>
 
 @code {
+    string color = "magenta";
 
+    void ChangeColor()
+    {
+        color = RandomColor();
+    }
+
+    static readonly Random random = new Random();
+
+    string RandomColor()
+    {
+        return string.Format("#{0:X6}", random.Next(0x1000000));
+    }
 }

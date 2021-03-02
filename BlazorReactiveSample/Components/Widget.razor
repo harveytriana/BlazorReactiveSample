@@ -1,0 +1,11 @@
+﻿<div class="card bg-light p-3">
+    <h5>@Name</h5>
+    <h6 style="color:@WidgetColor">Widget Color: @WidgetColor</h6>
+</div>
+
+@code {
+    [Parameter] public string Name { get; set; }
+
+    [CascadingParameter(Name = "WidgetColor")]
+    public string WidgetColor { get; set; } = "gray";
+}
